@@ -14,8 +14,9 @@ namespace MailUploader
             var textExtractor = new TextExtractor();
 
             var wordDocContents = textExtractor.Extract(@"C:\Users\Kamil\Desktop\sonetyAdamaMickiewicza.pdf");
-
-            Console.WriteLine(wordDocContents.Text);
+            string[] tokens = wordDocContents.Text.Split(null);
+            var test = tokens.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            //Console.WriteLine(wordDocContents.Text);
             Console.ReadKey();
         }
     }
