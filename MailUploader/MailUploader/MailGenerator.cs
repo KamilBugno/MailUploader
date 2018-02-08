@@ -37,13 +37,27 @@ namespace MailUploader
                     _from = ApplicationConstant.prefixPerson + GenerateFromAndTo().from,
                     _to = ApplicationConstant.prefixPerson + GenerateFromAndTo().to,
                     type = "mail",
-                    topic = "zał.",
-                    body = "Mail z załącznikiem",
+                    topic = GenerateTopic(),
+                    body = GenerateBody(),
                     text_from_attachment = attachment_text
                 });
             }
 
             return mailList;
+        }
+
+        public string GenerateTopic()
+        {
+            var mailTopics = ApplicationConstant.mailTopic;
+            var topicId = random.Next(mailTopics.Length);
+            return mailTopics[topicId];
+        }
+
+        public string GenerateBody()
+        {
+            var mailBodies = ApplicationConstant.mailBody;
+            var bodyId = random.Next(mailBodies.Length);
+            return mailBodies[bodyId];
         }
 
         public bool HasAttachment(string mailKey)

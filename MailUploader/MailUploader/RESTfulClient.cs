@@ -20,26 +20,34 @@ namespace MailUploader
             objectToJsonConverter = new ObjectToJsonConverter();
         }
 
-        public async Task UploadFileToFoxxAsync(string filePathFromClient, string foxxFileName)
+        public async Task UploadFileToFoxx(string filePathFromClient, string foxxFileName)
         {
             using (var stream = File.OpenRead(filePathFromClient))
             {
                 var fullUrl = ApplicationConstant.urlService + ApplicationConstant.uploadFileAction + foxxFileName;
-                var httpResponse = await client.PostAsync(fullUrl, new StreamContent(stream)).ConfigureAwait(false);
-                httpResponse.EnsureSuccessStatusCode();
+                var httpResponse = client.PostAsync(fullUrl, new StreamContent(stream)).Result;
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseContent = httpResponse.Content;
+                    string responseString = responseContent.ReadAsStringAsync().Result;
+                }
             }
         }
 
-        public async Task UploadMailToFoxxAsync(MailStructure mail)
+        public async Task UploadMailToFoxx(MailStructure mail)
         {
             var json = objectToJsonConverter.Convert(mail);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var fullUrl = ApplicationConstant.urlService + ApplicationConstant.uploadMailAction;
             
-            var httpResponse = await client.PostAsync(fullUrl, content).ConfigureAwait(false);
-            httpResponse.EnsureSuccessStatusCode();
-            
+            var httpResponse = client.PostAsync(fullUrl, content).Result;
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                var responseContent = httpResponse.Content;
+                string responseString = responseContent.ReadAsStringAsync().Result;
+            }
+
         }
     }
 }

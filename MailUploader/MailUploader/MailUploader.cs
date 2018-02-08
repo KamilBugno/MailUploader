@@ -19,11 +19,11 @@ namespace MailUploader
         {
             foreach(MailStructure mail in mails)
             {
-                var resultForSendingMail = restClient.UploadMailToFoxxAsync(mail);
+                var resultForSendingMail = restClient.UploadMailToFoxx(mail);
 
                 if (mail.HasProcessedAttachment())
                 {
-                    var resultForSendingAttachment = restClient.UploadFileToFoxxAsync(ApplicationConstant.pathToFolder + mail._key + ".pdf",
+                    var resultForSendingAttachment = restClient.UploadFileToFoxx(ApplicationConstant.pathToFolder + mail._key + ".pdf",
                         mail._key + ".pdf");
                 }
             }
