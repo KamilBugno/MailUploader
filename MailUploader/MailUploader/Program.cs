@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TikaOnDotNet.TextExtraction;
 
@@ -11,13 +12,11 @@ namespace MailUploader
     {
         static void Main(string[] args)
         {
-            var textExtractor = new TextExtractor();
+            var mailGenerator = new MailGenerator();
+            var mails = mailGenerator.Generate();
 
-            var wordDocContents = textExtractor.Extract(@"C:\Users\Kamil\Desktop\sonetyAdamaMickiewicza.pdf");
-            string[] tokens = wordDocContents.Text.Split(null);
-            var test = tokens.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            //Console.WriteLine(wordDocContents.Text);
-            Console.ReadKey();
+            var mailUploader = new MailUploader();
+            mailUploader.UploadMails(mails);
         }
     }
 }
