@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="ApplicationConstant.cs" />
     <Compile Include="Extractor.cs" />
+    <Compile Include="MailElasticSearch.cs" />
     <Compile Include="MailGenerator.cs" />
     <Compile Include="MailStructure.cs" />
     <Compile Include="MailUploader.cs" />

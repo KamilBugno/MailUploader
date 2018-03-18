@@ -30,6 +30,9 @@ namespace MailUploader
                     attachment_text = extractor.Extract(key);
                 }
 
+                var topic = GenerateTopic();
+                var body = GenerateBody();
+
                 mailList.Add(new MailStructure()
                 {
                     _key = key,
@@ -37,11 +40,14 @@ namespace MailUploader
                     _from = ApplicationConstant.prefixPerson + GenerateFromAndTo().from,
                     _to = ApplicationConstant.prefixPerson + GenerateFromAndTo().to,
                     type = "mail",
-                    topic = GenerateTopic(),
-                    body = GenerateBody(),
+                    topic = topic,
+                    body = body,
                     text_from_attachment = attachment_text,
                     date = DateToString(GenerateDate())
                 });
+
+                var client = new RESTfulClient();
+                client.UploadToElasticSearch(body, topic, attachment_text, key);
             }
 
             return mailList;

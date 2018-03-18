@@ -3,14 +3,15 @@
     class ApplicationConstant
     {
         public static string urlService = "http://127.0.0.1:8529/_db/_system/foxx-service/";
+        public static string urlElasticSearch = "http://127.0.0.1:9200/mail/_doc?pretty";
         public static string uploadFileAction = "save-file/";
         public static string uploadMailAction = "add-mail/";
         public static int minPersonKeyValue = 1;
         public static int maxPersonKeyValue = 4;
-        public static int numberOfMails = 15;
-        public static int startKey = 100;
+        public static int numberOfMails = 10;
+        public static int startKey = 300;
         public static int year = 2018;
-        public static int month = 4;
+        public static int month = 6;
         public static string prefixPerson = "HRSystem/";
         public static string prefixMail = "Mails/";
         public static string pathToFolder = @"C:\Users\Kamil\Desktop\test\";

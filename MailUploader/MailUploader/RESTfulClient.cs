@@ -49,5 +49,26 @@ namespace MailUploader
             }
 
         }
+
+        public async Task UploadToElasticSearch(string body, string topic, string attachment, string key)
+        {
+            var mail = new MailElasticSearch();
+            mail.body = body;
+            mail.topic = topic;
+            mail.attachment = attachment;
+            mail.key = key;
+            var json = objectToJsonConverter.Convert(mail);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var fullUrl = ApplicationConstant.urlElasticSearch;
+
+            var httpResponse = client.PostAsync(fullUrl, content).Result;
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                var responseContent = httpResponse.Content;
+                string responseString = responseContent.ReadAsStringAsync().Result;
+            }
+
+        }
     }
 }

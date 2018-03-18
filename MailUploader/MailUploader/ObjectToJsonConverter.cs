@@ -25,5 +25,21 @@ namespace MailUploader
 
             return json;
         }
+
+        public string Convert(MailElasticSearch mail)
+        {
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(MailElasticSearch));
+            MemoryStream memoryStreamObj = new MemoryStream();
+            serializer.WriteObject(memoryStreamObj, mail);
+            memoryStreamObj.Position = 0;
+            StreamReader streamReader = new StreamReader(memoryStreamObj);
+
+            string json = streamReader.ReadToEnd();
+
+            streamReader.Close();
+            memoryStreamObj.Close();
+
+            return json;
+        }
     }
 }
