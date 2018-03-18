@@ -39,11 +39,28 @@ namespace MailUploader
                     type = "mail",
                     topic = GenerateTopic(),
                     body = GenerateBody(),
-                    text_from_attachment = attachment_text
+                    text_from_attachment = attachment_text,
+                    date = DateToString(GenerateDate())
                 });
             }
 
             return mailList;
+        }
+
+        public DateTime GenerateDate()
+        {
+            var year = ApplicationConstant.year;
+            var month = ApplicationConstant.month;
+            var day = random.Next(1, DateTime.DaysInMonth(year, month) + 1);
+            var hour = random.Next(0, 24);
+            var minute = random.Next(0, 60);
+            var second = random.Next(0, 60);
+            return new DateTime(year, month, day, hour, minute, second);
+        }
+
+        public string DateToString(DateTime date)
+        {
+            return date.ToString("yyyy-MM-ddTHH:mm:ss.000");
         }
 
         public string GenerateTopic()

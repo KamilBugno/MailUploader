@@ -26,6 +26,8 @@ namespace MailUploader
         [DataMember]
         public string body { get; set; }
         [DataMember]
+        public string date { get; set; }
+        [DataMember]
         public string text_from_attachment { get; set; }
 
         public bool HasProcessedAttachment()
