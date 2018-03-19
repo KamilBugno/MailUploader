@@ -11,7 +11,7 @@
         public static int numberOfMails = 10;
         public static int startKey = 300;
         public static int year = 2018;
-        public static int month = 6;
+        public static int month = 1;
         public static string prefixPerson = "HRSystem/";
         public static string prefixMail = "Mails/";
         public static string pathToFolder = @"C:\Users\Kamil\Desktop\test\";

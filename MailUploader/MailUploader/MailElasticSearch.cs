@@ -17,6 +17,8 @@ namespace MailUploader
         [DataMember]
         public string attachment { get; set; }
         [DataMember]
+        public string date { get; set; }
+        [DataMember]
         public string key { get; set; }
     }
 }

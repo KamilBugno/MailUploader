@@ -32,6 +32,7 @@ namespace MailUploader
 
                 var topic = GenerateTopic();
                 var body = GenerateBody();
+                var date = GenerateDate();
 
                 mailList.Add(new MailStructure()
                 {
@@ -43,11 +44,11 @@ namespace MailUploader
                     topic = topic,
                     body = body,
                     text_from_attachment = attachment_text,
-                    date = DateToString(GenerateDate())
+                    date = DateToString(date)
                 });
 
                 var client = new RESTfulClient();
-                client.UploadToElasticSearch(body, topic, attachment_text, key);
+                client.UploadToElasticSearch(body, topic, attachment_text, DateToShortString(date), key);
             }
 
             return mailList;
@@ -67,6 +68,11 @@ namespace MailUploader
         public string DateToString(DateTime date)
         {
             return date.ToString("yyyy-MM-ddTHH:mm:ss.000");
+        }
+
+        public string DateToShortString(DateTime date)
+        {
+            return date.ToString("yyyy-MM-dd");
         }
 
         public string GenerateTopic()
@@ -89,16 +95,16 @@ namespace MailUploader
         }
 
         public (int from, int to) GenerateFromAndTo()
-        {
-            int to;
+        { 
             var from = random.Next(ApplicationConstant.minPersonKeyValue, 
                 ApplicationConstant.maxPersonKeyValue + 1);
+            int to = from;
 
-            do
+            while (to == from)
             {
                 to = random.Next(ApplicationConstant.minPersonKeyValue,
                 ApplicationConstant.maxPersonKeyValue + 1);
-            } while (to == from);
+            } 
 
             return (from, to);
         } 
