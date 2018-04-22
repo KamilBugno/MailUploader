@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Pdf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,10 +28,12 @@ namespace MailUploader
                 var key = (ApplicationConstant.startKey + i).ToString();
                 var attachment_text = String.Empty;
 
-                if (HasAttachment(key))
-                {
-                    attachment_text = extractor.Extract(key);
-                }
+                //if (HasAttachment(key))
+                //{
+                //    attachment_text = extractor.Extract(key);
+                //}
+
+                attachment_text = GenerateAttachmentPDF(key);
 
                 var topic = GenerateTopic();
                 var body = GenerateBody();
@@ -63,6 +68,36 @@ namespace MailUploader
             var minute = random.Next(0, 60);
             var second = random.Next(0, 60);
             return new DateTime(year, month, day, hour, minute, second);
+        }
+
+        public string GenerateAttachmentPDF(string key)
+        {
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = key;
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XTextFormatter tf = new XTextFormatter(gfx);
+            XFont font = new XFont("Verdana", 12, XFontStyle.BoldItalic);
+
+            var attachmentContent = GenerateAttachmentContent();
+
+            tf.Alignment = XParagraphAlignment.Left;
+            tf.DrawString(attachmentContent, font, XBrushes.Black,
+              new XRect(0, 0, page.Width, page.Height),
+              XStringFormats.TopLeft);
+
+            // Save the document...
+            string filename = ApplicationConstant.pathToFolder + key + ".pdf";
+            document.Save(filename);
+
+            return attachmentContent;
+        }
+
+        public string GenerateAttachmentContent()
+        {
+            var mailAttachmentText = ApplicationConstant.mailAttachment;
+            var mailAttachmentId = random.Next(mailAttachmentText.Length);
+            return mailAttachmentText[mailAttachmentId];
         }
 
         public string DateToString(DateTime date)
